@@ -54,14 +54,16 @@ const foo = ref(false)
       )
 
       expect(res.code).toMatchInlineSnapshot(`
-        "import { createCommentVNode as _createCommentVNode, createElementVNode as _createElementVNode, vShow as _vShow, withDirectives as _withDirectives, openBlock as _openBlock, createElementBlock as _createElementBlock } from \\"vue\\"
+        "import { Fragment as _Fragment, openBlock as _openBlock, createElementBlock as _createElementBlock, createCommentVNode as _createCommentVNode, createElementVNode as _createElementVNode, vShow as _vShow, withDirectives as _withDirectives } from \\"vue\\"
 
         export function render(_ctx, _cache) {
           return (_openBlock(), _createElementBlock(\\"template\\", null, [
             (_cache._v_lazy_show_init_1 || _ctx.foo)
-              ? (_cache._v_lazy_show_init_1 = true, _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
-                  [_vShow, _ctx.foo]
-                ]))
+              ? (_cache._v_lazy_show_init_1 = true, (_openBlock(), _createElementBlock(_Fragment, null, [
+                  _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
+                    [_vShow, _ctx.foo]
+                  ])
+                ], 64)))
               : _createCommentVNode(\\"v-show-if\\", true)
           ]))
         }"
@@ -89,19 +91,23 @@ const bar = ref(false)
       )
 
       expect(res.code).toMatchInlineSnapshot(`
-        "import { createCommentVNode as _createCommentVNode, createElementVNode as _createElementVNode, vShow as _vShow, withDirectives as _withDirectives, openBlock as _openBlock, createElementBlock as _createElementBlock } from \\"vue\\"
+        "import { Fragment as _Fragment, openBlock as _openBlock, createElementBlock as _createElementBlock, createCommentVNode as _createCommentVNode, createElementVNode as _createElementVNode, vShow as _vShow, withDirectives as _withDirectives } from \\"vue\\"
 
         export function render(_ctx, _cache) {
           return (_openBlock(), _createElementBlock(\\"template\\", null, [
             (_cache._v_lazy_show_init_1 || _ctx.foo)
-              ? (_cache._v_lazy_show_init_1 = true, _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
-                  [_vShow, _ctx.foo]
-                ]))
+              ? (_cache._v_lazy_show_init_1 = true, (_openBlock(), _createElementBlock(_Fragment, null, [
+                  _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
+                    [_vShow, _ctx.foo]
+                  ])
+                ], 64)))
               : _createCommentVNode(\\"v-show-if\\", true),
             (_cache._v_lazy_show_init_2 || _ctx.bar)
-              ? (_cache._v_lazy_show_init_2 = true, _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
-                  [_vShow, _ctx.bar]
-                ]))
+              ? (_cache._v_lazy_show_init_2 = true, (_openBlock(), _createElementBlock(_Fragment, null, [
+                  _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
+                    [_vShow, _ctx.bar]
+                  ])
+                ], 64)))
               : _createCommentVNode(\\"v-show-if\\", true)
           ]))
         }"
