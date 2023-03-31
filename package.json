@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "packageManager": "pnpm@8.1.0",
-  "description": "",
+  "description": "Compile-time directive to lazy initialize v-show for Vue",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/antfu",
@@ -20,11 +20,6 @@
       "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist/index.mjs"
-    },
-    "./runtime": {
-      "types": "./dist/runtime.d.ts",
-      "require": "./dist/runtime.cjs",
-      "import": "./dist/runtime.mjs"
     }
   },
   "main": "./dist/index.mjs",

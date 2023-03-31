@@ -83,7 +83,7 @@ const bar = ref(false)
   <span v-lazy-show="foo">
     Hello
   </span>
-  <span v-lazy-show="bar">
+  <span v-show.lazy="bar">
     Hello
   </span>
 </template>

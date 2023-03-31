@@ -13,8 +13,14 @@ import {
 const indexMap = new WeakMap()
 
 export const transformLazyShow = createStructuralDirectiveTransform(
-  'lazy-show',
+  /^(lazy-show|show)$/,
   (node, dir, context) => {
+    if (dir.name === 'show' && !dir.modifiers.includes('lazy')) {
+      return () => {
+        node.props.push(dir)
+      }
+    }
+
     const { helper } = context
 
     const keyIndex = (indexMap.get(context.root) || 0) + 1
@@ -49,13 +55,16 @@ export const transformLazyShow = createStructuralDirectiveTransform(
 
     context.replaceNode(wrapNode)
 
-    if (!node.codegenNode)
-      traverseNode(node, context)
+    return () => {
+      if (!node.codegenNode)
+        traverseNode(node, context)
 
-    // rename `v-lazy-show` to `v-show` and let Vue handles it
-    node.props.push({
-      ...dir,
-      name: 'show',
-    })
+      // rename `v-lazy-show` to `v-show` and let Vue handles it
+      node.props.push({
+        ...dir,
+        modifiers: dir.modifiers.filter(i => i !== 'lazy'),
+        name: 'show',
+      })
+    }
   },
 )
