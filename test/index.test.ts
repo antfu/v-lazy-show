@@ -37,7 +37,7 @@ function parseWithForTransform(
 
 describe('compiler: v-lazy-show', () => {
   describe('transform', () => {
-    it('number expression', () => {
+    it('basic', () => {
       const res = parseWithForTransform(
         `
 <script setup>
@@ -46,14 +46,9 @@ const foo = ref(false)
 </script>
 
 <template>
-  <div>
-    <span v-lazy-show="foo">
-      Hello
-    </span>
-    <span v-show="foo">
-      Hello
-    </span>
-  </div>
+  <span v-lazy-show="foo">
+    Hello
+  </span>
 </template>
 `,
       )
@@ -63,16 +58,51 @@ const foo = ref(false)
 
         export function render(_ctx, _cache) {
           return (_openBlock(), _createElementBlock(\\"template\\", null, [
-            _createElementVNode(\\"div\\", null, [
-              (_cache._v_lazy_show_init || _ctx.foo)
-                ? (_cache._v_lazy_show_init = true, _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
-                    [_vShow, _ctx.foo]
-                  ]))
-                : _createCommentVNode(\\"v-show-if\\", true),
-              _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
-                [_vShow, _ctx.foo]
-              ])
-            ])
+            (_cache._v_lazy_show_init_1 || _ctx.foo)
+              ? (_cache._v_lazy_show_init_1 = true, _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
+                  [_vShow, _ctx.foo]
+                ]))
+              : _createCommentVNode(\\"v-show-if\\", true)
+          ]))
+        }"
+      `)
+    })
+
+    it('basic', () => {
+      const res = parseWithForTransform(
+        `
+<script setup>
+import { ref } from 'vue'
+const foo = ref(false)
+const bar = ref(false)
+</script>
+
+<template>
+  <span v-lazy-show="foo">
+    Hello
+  </span>
+  <span v-lazy-show="bar">
+    Hello
+  </span>
+</template>
+`,
+      )
+
+      expect(res.code).toMatchInlineSnapshot(`
+        "import { createCommentVNode as _createCommentVNode, createElementVNode as _createElementVNode, vShow as _vShow, withDirectives as _withDirectives, openBlock as _openBlock, createElementBlock as _createElementBlock } from \\"vue\\"
+
+        export function render(_ctx, _cache) {
+          return (_openBlock(), _createElementBlock(\\"template\\", null, [
+            (_cache._v_lazy_show_init_1 || _ctx.foo)
+              ? (_cache._v_lazy_show_init_1 = true, _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
+                  [_vShow, _ctx.foo]
+                ]))
+              : _createCommentVNode(\\"v-show-if\\", true),
+            (_cache._v_lazy_show_init_2 || _ctx.bar)
+              ? (_cache._v_lazy_show_init_2 = true, _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
+                  [_vShow, _ctx.bar]
+                ]))
+              : _createCommentVNode(\\"v-show-if\\", true)
           ]))
         }"
       `)
