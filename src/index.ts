@@ -20,6 +20,10 @@ export const transformLazyShow = createStructuralDirectiveTransform(
     const wrapNode = createConditionalExpression(
       createCompoundExpression([`_cache.${key}`, ' || ', dir.exp!]),
       createSequenceExpression([
+        // TODO: fix block capture
+        // createCallExpression(
+        //   context.helper(OPEN_BLOCK),
+        // ),
         createCompoundExpression([`_cache.${key} = true`]),
         // TODO: fix hoist check
         node as any,

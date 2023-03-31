@@ -1,16 +1,21 @@
 <script setup lang="ts">
-defineProps({
+import { onMounted } from 'vue'
+
+const props = defineProps({
   msg: {
     type: String,
     required: true,
   },
 })
 
-console.log('HI')
+onMounted(() => {
+  // eslint-disable-next-line no-console
+  console.log(`${props.msg} mounted`)
+})
 </script>
 
 <template>
   <div>
-    {{ msg }}
+    Hello {{ msg }}
   </div>
 </template>

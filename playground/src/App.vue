@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import HelloWorld from './HelloWorld.vue'
 
 const enabled = ref(false)
 </script>
@@ -9,12 +10,22 @@ const enabled = ref(false)
     Toggle
   </button>
   <div v-lazy-show="enabled">
-    <div>v-lazy-show</div>
+    v-lazy-show
   </div>
   <div v-show="enabled">
-    <div>v-show</div>
+    v-show
   </div>
   <div v-if="enabled">
-    <div>v-if</div>
+    v-if
+  </div>
+  <hr>
+  <div v-lazy-show="enabled">
+    <HelloWorld msg="v-lazy-show" />
+  </div>
+  <div v-show="enabled">
+    <HelloWorld msg="v-show" />
+  </div>
+  <div v-if="enabled">
+    <HelloWorld msg="v-if" />
   </div>
 </template>

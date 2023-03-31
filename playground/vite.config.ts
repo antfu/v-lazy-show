@@ -9,6 +9,7 @@ export default defineConfig({
     Vue({
       template: {
         compilerOptions: {
+          hoistStatic: false,
           nodeTransforms: [
             transformLazyShow,
           ],
