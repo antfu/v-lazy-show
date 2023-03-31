@@ -1,0 +1,81 @@
+{
+  "name": "v-lazy-show",
+  "type": "module",
+  "version": "0.0.0",
+  "packageManager": "pnpm@8.1.0",
+  "description": "",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://github.com/antfu/v-lazy-show#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/v-lazy-show.git"
+  },
+  "bugs": "https://github.com/antfu/v-lazy-show/issues",
+  "keywords": [],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    },
+    "./runtime": {
+      "types": "./dist/runtime.d.ts",
+      "require": "./dist/runtime.cjs",
+      "import": "./dist/runtime.mjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./dist/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub",
+    "dev": "nr -C playground dev",
+    "lint": "eslint .",
+    "prepublishOnly": "nr build",
+    "release": "bumpp && npm publish",
+    "start": "esno src/index.ts",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.38.2",
+    "@antfu/ni": "^0.21.2",
+    "@antfu/utils": "^0.7.2",
+    "@types/node": "^18.15.11",
+    "@vue/compiler-core": "^3.2.47",
+    "bumpp": "^9.1.0",
+    "eslint": "^8.37.0",
+    "esno": "^0.16.3",
+    "lint-staged": "^13.2.0",
+    "pnpm": "^8.1.0",
+    "rimraf": "^4.4.1",
+    "simple-git-hooks": "^2.8.1",
+    "typescript": "^5.0.2",
+    "unbuild": "^1.1.2",
+    "vite": "^4.2.1",
+    "vite-plugin-inspect": "^0.7.18",
+    "vitest": "^0.29.8",
+    "vue": "^3.2.47"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
+  }
+}
