@@ -58,8 +58,8 @@ const foo = ref(false)
 
         export function render(_ctx, _cache) {
           return (_openBlock(), _createElementBlock(\\"template\\", null, [
-            (_cache._v_lazy_show_init_1 || _ctx.foo)
-              ? (_cache._v_lazy_show_init_1 = true, (_openBlock(), _createElementBlock(_Fragment, null, [
+            (_cache._lazyshow1 || _ctx.foo)
+              ? (_cache._lazyshow1 = true, (_openBlock(), _createElementBlock(_Fragment, null, [
                   _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
                     [_vShow, _ctx.foo]
                   ])
@@ -70,20 +70,16 @@ const foo = ref(false)
       `)
     })
 
-    it('basic', () => {
+    it('v-show.lazy', () => {
       const res = parseWithForTransform(
         `
 <script setup>
 import { ref } from 'vue'
 const foo = ref(false)
-const bar = ref(false)
 </script>
 
 <template>
-  <span v-lazy-show="foo">
-    Hello
-  </span>
-  <span v-show.lazy="bar">
+  <span v-show.lazy="foo">
     Hello
   </span>
 </template>
@@ -95,23 +91,35 @@ const bar = ref(false)
 
         export function render(_ctx, _cache) {
           return (_openBlock(), _createElementBlock(\\"template\\", null, [
-            (_cache._v_lazy_show_init_1 || _ctx.foo)
-              ? (_cache._v_lazy_show_init_1 = true, (_openBlock(), _createElementBlock(_Fragment, null, [
+            (_cache._lazyshow1 || _ctx.foo)
+              ? (_cache._lazyshow1 = true, (_openBlock(), _createElementBlock(_Fragment, null, [
                   _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
                     [_vShow, _ctx.foo]
-                  ])
-                ], 64)))
-              : _createCommentVNode(\\"v-show-if\\", true),
-            (_cache._v_lazy_show_init_2 || _ctx.bar)
-              ? (_cache._v_lazy_show_init_2 = true, (_openBlock(), _createElementBlock(_Fragment, null, [
-                  _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
-                    [_vShow, _ctx.bar]
                   ])
                 ], 64)))
               : _createCommentVNode(\\"v-show-if\\", true)
           ]))
         }"
       `)
+    })
+
+    it('error on template', () => {
+      expect(() => {
+        const res = parseWithForTransform(
+        `
+<script setup>
+import { ref } from 'vue'
+const foo = ref(false)
+</script>
+
+<template>
+  <template v-lazy-show="foo">
+    Hello
+  </template>
+</template>
+`,
+        )
+      }).toThrowErrorMatchingInlineSnapshot('"v-lazy-show can not be used on <template>"')
     })
   })
 })
