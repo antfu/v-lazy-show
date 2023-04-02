@@ -10,7 +10,9 @@ A compile-time directive to lazy initialize v-show for Vue. It makes components 
 npm i -D v-lazy-show
 ```
 
-This package is completely compile-time, installed it as a `nodeTransformer` in Vue's compiler options. For example in Vite:
+This package is completely compile-time, installed it as a `nodeTransformer` in Vue's compiler options.
+
+For example in Vite:
 
 ```ts
 // vite.config.ts
@@ -31,6 +33,25 @@ export default defineConfig({
   ]
 })
 ```
+
+In Nuxt:
+
+```ts
+// nuxt.config.ts
+import { transformLazyShow } from 'v-lazy-show'
+
+export default defineNuxtConfig({
+  vue: {
+    compilerOptions: {
+      nodeTransforms: [
+        transformLazyShow, // <--- add this
+      ],
+    },
+  },
+})
+```
+
+> **Note**: There are some hydration issues with SSR, we are still investigating it.
 
 ## Usage
 
