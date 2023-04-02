@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import Inspect from 'vite-plugin-inspect'
-import { transformLazyShow } from '../src/index'
+import { transformLazyShow } from '../../src'
 
 // https://vitejs.dev/config/
 export default defineConfig({

@@ -39,7 +39,7 @@
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub",
-    "dev": "nr -C playground dev",
+    "dev": "nr -C playgrounds/vite dev",
     "lint": "eslint .",
     "prepublishOnly": "nr build",
     "release": "bumpp && npm publish",

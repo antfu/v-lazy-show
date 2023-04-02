@@ -5,12 +5,18 @@ import {
   createCompoundExpression,
   createConditionalExpression,
   createSequenceExpression,
+  createSimpleExpression,
   createStructuralDirectiveTransform,
   createVNodeCall,
   traverseNode,
 } from '@vue/compiler-core'
 
 const indexMap = new WeakMap()
+
+// https://github.com/vuejs/core/blob/f5971468e53683d8a54d9cd11f73d0b95c0e0fb7/packages/compiler-core/src/ast.ts#L28
+const NodeTypes = {
+  SIMPLE_EXPRESSION: 4,
+}
 
 // https://github.com/vuejs/core/blob/f5971468e53683d8a54d9cd11f73d0b95c0e0fb7/packages/compiler-core/src/ast.ts#L62
 const ElementTypes = {
@@ -25,15 +31,32 @@ const PatchFlags = {
 export const transformLazyShow = createStructuralDirectiveTransform(
   /^(lazy-show|show)$/,
   (node, dir, context) => {
+    // forward normal `v-show` as-is
     if (dir.name === 'show' && !dir.modifiers.includes('lazy')) {
       return () => {
         node.props.push(dir)
       }
     }
 
-    const directiveName = dir.name === 'show' ? 'v-show.lazy' : 'v-lazy-show'
+    const directiveName = dir.name === 'show'
+      ? 'v-show.lazy'
+      : 'v-lazy-show'
+
     if (node.tagType === ElementTypes.TEMPLATE || node.tag === 'template')
       throw new Error(`${directiveName} can not be used on <template>`)
+
+    if (context.ssr || context.inSSR) {
+      // rename `v-lazy-show` to `v-if` in SSR, and let Vue handles it
+      node.props.push({
+        ...dir,
+        exp: dir.exp
+          ? createSimpleExpression(dir.exp.loc.source)
+          : undefined,
+        modifiers: dir.modifiers.filter(i => i !== 'lazy'),
+        name: 'if',
+      })
+      return
+    }
 
     const { helper } = context
     const keyIndex = (indexMap.get(context.root) || 0) + 1

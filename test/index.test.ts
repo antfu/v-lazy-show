@@ -7,6 +7,7 @@ import { transformLazyShow } from '../src'
 function parseWithForTransform(
   template: string,
   options: CompilerOptions = {},
+  ssr = false,
 ) {
   const [nodeTransforms, directiveTransforms] = getBaseTransformPreset()
 
@@ -14,6 +15,8 @@ function parseWithForTransform(
     id: 'foo.vue',
     filename: 'foo.vue',
     source: template,
+    ssr,
+    ssrCssVars: [],
     compilerOptions: {
       nodeTransforms: [
         // (node) => {
@@ -40,16 +43,9 @@ describe('compiler: v-lazy-show', () => {
     it('basic', () => {
       const res = parseWithForTransform(
         `
-<script setup>
-import { ref } from 'vue'
-const foo = ref(false)
-</script>
-
-<template>
-  <span v-lazy-show="foo">
-    Hello
-  </span>
-</template>
+<span v-lazy-show="foo">
+  Hello
+</span>
 `,
       )
 
@@ -57,15 +53,13 @@ const foo = ref(false)
         "import { Fragment as _Fragment, openBlock as _openBlock, createElementBlock as _createElementBlock, createCommentVNode as _createCommentVNode, createElementVNode as _createElementVNode, vShow as _vShow, withDirectives as _withDirectives } from \\"vue\\"
 
         export function render(_ctx, _cache) {
-          return (_openBlock(), _createElementBlock(\\"template\\", null, [
-            (_cache._lazyshow1 || _ctx.foo)
-              ? (_cache._lazyshow1 = true, (_openBlock(), _createElementBlock(_Fragment, null, [
-                  _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
-                    [_vShow, _ctx.foo]
-                  ])
-                ], 64)))
-              : _createCommentVNode(\\"v-show-if\\", true)
-          ]))
+          return (_cache._lazyshow1 || _ctx.foo)
+            ? (_cache._lazyshow1 = true, (_openBlock(), _createElementBlock(_Fragment, null, [
+                _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
+                  [_vShow, _ctx.foo]
+                ])
+              ], 64)))
+            : _createCommentVNode(\\"v-show-if\\", true)
         }"
       `)
     })
@@ -73,16 +67,9 @@ const foo = ref(false)
     it('v-show.lazy', () => {
       const res = parseWithForTransform(
         `
-<script setup>
-import { ref } from 'vue'
-const foo = ref(false)
-</script>
-
-<template>
-  <span v-show.lazy="foo">
-    Hello
-  </span>
-</template>
+<span v-show.lazy="foo">
+  Hello
+</span>
 `,
       )
 
@@ -90,36 +77,49 @@ const foo = ref(false)
         "import { Fragment as _Fragment, openBlock as _openBlock, createElementBlock as _createElementBlock, createCommentVNode as _createCommentVNode, createElementVNode as _createElementVNode, vShow as _vShow, withDirectives as _withDirectives } from \\"vue\\"
 
         export function render(_ctx, _cache) {
-          return (_openBlock(), _createElementBlock(\\"template\\", null, [
-            (_cache._lazyshow1 || _ctx.foo)
-              ? (_cache._lazyshow1 = true, (_openBlock(), _createElementBlock(_Fragment, null, [
-                  _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
-                    [_vShow, _ctx.foo]
-                  ])
-                ], 64)))
-              : _createCommentVNode(\\"v-show-if\\", true)
-          ]))
+          return (_cache._lazyshow1 || _ctx.foo)
+            ? (_cache._lazyshow1 = true, (_openBlock(), _createElementBlock(_Fragment, null, [
+                _withDirectives(_createElementVNode(\\"span\\", null, \\" Hello \\", 512 /* NEED_PATCH */), [
+                  [_vShow, _ctx.foo]
+                ])
+              ], 64)))
+            : _createCommentVNode(\\"v-show-if\\", true)
         }"
       `)
     })
 
     it('error on template', () => {
       expect(() => {
-        const res = parseWithForTransform(
+        parseWithForTransform(
         `
-<script setup>
-import { ref } from 'vue'
-const foo = ref(false)
-</script>
-
-<template>
-  <template v-lazy-show="foo">
-    Hello
-  </template>
+<template v-lazy-show="foo">
+  Hello
 </template>
 `,
         )
       }).toThrowErrorMatchingInlineSnapshot('"v-lazy-show can not be used on <template>"')
     })
+  })
+
+  it('basic ssr', () => {
+    const res = parseWithForTransform(
+      `
+<span v-lazy-show="foo">
+  Hello
+</span>
+`, {}, true)
+
+    expect(res.code).toMatchInlineSnapshot(`
+      "import { mergeProps as _mergeProps, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode } from \\"vue\\"
+      import { ssrRenderAttrs as _ssrRenderAttrs } from \\"vue/server-renderer\\"
+
+      export function ssrRender(_ctx, _push, _parent, _attrs) {
+        if (_ctx.foo) {
+          _push(\`<span\${_ssrRenderAttrs(_mergeProps(_attrs, _attrs))}> Hello </span>\`)
+        } else {
+          _push(\`<!---->\`)
+        }
+      }"
+    `)
   })
 })
