@@ -97,15 +97,12 @@ will be compiled to
 import { Fragment as _Fragment, createCommentVNode as _createCommentVNode, createElementBlock as _createElementBlock, createElementVNode as _createElementVNode, openBlock as _openBlock, vShow as _vShow, withDirectives as _withDirectives } from 'vue'
 
 export function render(_ctx, _cache) {
-  return (_openBlock(), _createElementBlock('template', null, [
-    (_cache._v_lazy_show_init_1 || _ctx.foo)
-      ? (_cache._v_lazy_show_init_1 = true, (_openBlock(), _createElementBlock(_Fragment, null, [
-          _withDirectives(_createElementVNode('span', null, ' Hello ', 512 /* NEED_PATCH */), [
-            [_vShow, _ctx.foo]
-          ])
-        ], 64)))
-      : _createCommentVNode('v-show-if', true)
-  ]))
+  return (_cache._lazyshow1 || _ctx.foo)
+    ? (_cache._lazyshow1 = true, (_openBlock(),
+      _withDirectives(_createElementVNode('span', null, ' Hello ', 512 /* NEED_PATCH */), [
+        [_vShow, _ctx.foo]
+      ])))
+    : _createCommentVNode('v-show-if', true)
 }
 ```
 
