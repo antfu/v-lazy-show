@@ -99,7 +99,7 @@ import { Fragment as _Fragment, createCommentVNode as _createCommentVNode, creat
 export function render(_ctx, _cache) {
   return (_cache._lazyshow1 || _ctx.foo)
     ? (_cache._lazyshow1 = true, (_openBlock(),
-      _withDirectives(_createElementVNode('span', null, ' Hello ', 512 /* NEED_PATCH */), [
+      _withDirectives(_createElementVNode('div', null, ' Hello ', 512 /* NEED_PATCH */), [
         [_vShow, _ctx.foo]
       ])))
     : _createCommentVNode('v-show-if', true)
