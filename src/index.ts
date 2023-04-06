@@ -46,7 +46,16 @@ export const transformLazyShow = createStructuralDirectiveTransform(
       throw new Error(`${directiveName} can not be used on <template>`)
 
     if (context.ssr || context.inSSR) {
-      // rename `v-lazy-show` to `v-if` in SSR, and let Vue handles it
+      /**
+       * rename `v-lazy-show` to `v-if` in SSR, and let Vue handles it
+       *
+       * since user nodeTransforms always runs after built-in,
+       * we need to grab the built-in transform to let it process again.
+       *
+       * we are relying on the order of them, which is an implementation detail.
+       * https://github.com/vuejs/core/blob/f811dc2b60ba7efdbb9b1ab330dcbc18c1cc9a75/packages/compiler-ssr/src/index.ts#L58
+       */
+      const ssrTransformIf = context.nodeTransforms[0]
       node.props.push({
         ...dir,
         exp: dir.exp
@@ -55,6 +64,7 @@ export const transformLazyShow = createStructuralDirectiveTransform(
         modifiers: dir.modifiers.filter(i => i !== 'lazy'),
         name: 'if',
       })
+      ssrTransformIf(node, context)
       return
     }
 

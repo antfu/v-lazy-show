@@ -110,7 +110,7 @@ describe('compiler: v-lazy-show', () => {
 `, {}, true)
 
     expect(res.code).toMatchInlineSnapshot(`
-      "import { mergeProps as _mergeProps, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode } from \\"vue\\"
+      "import { mergeProps as _mergeProps, createVNode as _createVNode } from \\"vue\\"
       import { ssrRenderAttrs as _ssrRenderAttrs } from \\"vue/server-renderer\\"
 
       export function ssrRender(_ctx, _push, _parent, _attrs) {
