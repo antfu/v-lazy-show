@@ -20,6 +20,11 @@
       "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist/index.mjs"
+    },
+    "./nuxt": {
+      "types": "./dist/nuxt.d.ts",
+      "require": "./dist/nuxt.cjs",
+      "import": "./dist/nuxt.mjs"
     }
   },
   "main": "./dist/index.mjs",
@@ -34,7 +39,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "*.d.ts"
   ],
   "scripts": {
     "build": "unbuild",

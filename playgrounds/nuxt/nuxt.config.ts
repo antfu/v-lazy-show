@@ -1,19 +1,13 @@
 /* eslint-disable no-console */
-import { transformLazyShow } from '../../src'
+import vLazyShow from '../../src/nuxt'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
 // @ts-ignore ignore
 export default defineNuxtConfig({
-  vue: {
-    compilerOptions: {
-      nodeTransforms: [
-        transformLazyShow,
-      ],
-    },
-  },
   modules: [
     '@nuxt/devtools',
+    vLazyShow,
   ],
   devtools: {
     componentInspector: false,

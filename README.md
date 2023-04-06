@@ -38,20 +38,12 @@ In Nuxt:
 
 ```ts
 // nuxt.config.ts
-import { transformLazyShow } from 'v-lazy-show'
-
 export default defineNuxtConfig({
-  vue: {
-    compilerOptions: {
-      nodeTransforms: [
-        transformLazyShow, // <--- add this
-      ],
-    },
-  },
+  modules: [
+    'v-lazy-show/nuxt'
+  ]
 })
 ```
-
-> **Note**: There are some hydration issues with SSR, we are still investigating it.
 
 ## Usage
 
