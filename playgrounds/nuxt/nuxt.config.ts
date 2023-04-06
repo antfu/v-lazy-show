@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import type { Plugin } from 'vite'
 import vLazyShow from '../../src/nuxt'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -14,7 +15,7 @@ export default defineNuxtConfig({
   },
   vite: {
     plugins: [
-      {
+      <Plugin>{
         name: 'log',
         enforce: 'post',
         transform(code, id, ctx) {
