@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import HelloWorld from './HelloWorld.vue'
 
 const enabled = ref(false)
+const role = ref('button')
 </script>
 
 <template>
@@ -27,5 +28,10 @@ const enabled = ref(false)
   </div>
   <div v-if="enabled">
     <HelloWorld msg="v-if" />
+  </div>
+  <hr>
+  <!-- https://github.com/antfu/v-lazy-show/issues/3 -->
+  <div v-lazy-show="enabled" :role="role">
+    hello world
   </div>
 </template>

@@ -45,6 +45,14 @@ export const transformLazyShow = createStructuralDirectiveTransform(
     if (node.tagType === ElementTypes.TEMPLATE || node.tag === 'template')
       throw new Error(`${directiveName} can not be used on <template>`)
 
+    // FIXME: Not sure why Vue prefixes `_ctx.` twice in the generated code, workaround it here
+    node.props.forEach((prop, i) => {
+      if ('exp' in prop && prop.exp && 'content' in prop.exp && prop.exp.loc.source)
+        prop.exp = createSimpleExpression(prop.exp.loc.source)
+    })
+    if (dir.exp!.loc.source)
+      dir.exp = createSimpleExpression(dir.exp!.loc.source)
+
     if (context.ssr || context.inSSR) {
       /**
        * rename `v-lazy-show` to `v-if` in SSR, and let Vue handles it
@@ -58,9 +66,7 @@ export const transformLazyShow = createStructuralDirectiveTransform(
       const ssrTransformIf = context.nodeTransforms[0]
       node.props.push({
         ...dir,
-        exp: dir.exp
-          ? createSimpleExpression(dir.exp.loc.source)
-          : undefined,
+        exp: dir.exp,
         modifiers: dir.modifiers.filter(i => i !== 'lazy'),
         name: 'if',
       })
@@ -74,25 +80,23 @@ export const transformLazyShow = createStructuralDirectiveTransform(
 
     const key = `_lazyshow${keyIndex}`
 
-    const body = createVNodeCall(
-      context,
-      helper(FRAGMENT),
-      undefined,
-      [node],
-      PatchFlags.STABLE_FRAGMENT.toString(),
-      undefined,
-      undefined,
-      true,
-      false,
-      false /* isComponent */,
-      node.loc,
-    )
-
     const wrapNode = createConditionalExpression(
       createCompoundExpression([`_cache.${key}`, ' || ', dir.exp!]),
       createSequenceExpression([
         createCompoundExpression([`_cache.${key} = true`]),
-        body,
+        createVNodeCall(
+          context,
+          helper(FRAGMENT),
+          undefined,
+          [node],
+          PatchFlags.STABLE_FRAGMENT.toString(),
+          undefined,
+          undefined,
+          true,
+          false,
+          false /* isComponent */,
+          node.loc,
+        ),
       ]),
       createCallExpression(helper(CREATE_COMMENT), [
         '"v-show-if"',
@@ -100,18 +104,18 @@ export const transformLazyShow = createStructuralDirectiveTransform(
       ]),
     ) as any
 
+    // rename `v-lazy-show` to `v-show` and let Vue handles it
+    node.props.push({
+      ...dir,
+      modifiers: dir.modifiers.filter(i => i !== 'lazy'),
+      name: 'show',
+    })
+
     context.replaceNode(wrapNode)
 
     return () => {
       if (!node.codegenNode)
         traverseNode(node, context)
-
-      // rename `v-lazy-show` to `v-show` and let Vue handles it
-      node.props.push({
-        ...dir,
-        modifiers: dir.modifiers.filter(i => i !== 'lazy'),
-        name: 'show',
-      })
     }
   },
 )
