@@ -13,11 +13,6 @@ import {
 
 const indexMap = new WeakMap()
 
-// https://github.com/vuejs/core/blob/f5971468e53683d8a54d9cd11f73d0b95c0e0fb7/packages/compiler-core/src/ast.ts#L28
-const NodeTypes = {
-  SIMPLE_EXPRESSION: 4,
-}
-
 // https://github.com/vuejs/core/blob/f5971468e53683d8a54d9cd11f73d0b95c0e0fb7/packages/compiler-core/src/ast.ts#L62
 const ElementTypes = {
   TEMPLATE: 3,
@@ -46,7 +41,7 @@ export const transformLazyShow = createStructuralDirectiveTransform(
       throw new Error(`${directiveName} can not be used on <template>`)
 
     // FIXME: Not sure why Vue prefixes `_ctx.` twice in the generated code, workaround it here
-    node.props.forEach((prop, i) => {
+    node.props.forEach((prop) => {
       if ('exp' in prop && prop.exp && 'content' in prop.exp && prop.exp.loc.source)
         prop.exp = createSimpleExpression(prop.exp.loc.source)
     })
