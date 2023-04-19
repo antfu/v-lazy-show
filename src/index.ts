@@ -41,6 +41,7 @@ export const transformLazyShow = createStructuralDirectiveTransform(
       throw new Error(`${directiveName} can not be used on <template>`)
 
     // FIXME: Not sure why Vue prefixes `_ctx.` twice in the generated code, workaround it here
+    const conditionExp = dir.exp!
     node.props.forEach((prop) => {
       if ('exp' in prop && prop.exp && 'content' in prop.exp && prop.exp.loc.source)
         prop.exp = createSimpleExpression(prop.exp.loc.source)
@@ -76,7 +77,7 @@ export const transformLazyShow = createStructuralDirectiveTransform(
     const key = `_lazyshow${keyIndex}`
 
     const wrapNode = createConditionalExpression(
-      createCompoundExpression([`_cache.${key}`, ' || ', dir.exp!]),
+      createCompoundExpression([`_cache.${key}`, ' || ', conditionExp]),
       createSequenceExpression([
         createCompoundExpression([`_cache.${key} = true`]),
         createVNodeCall(
