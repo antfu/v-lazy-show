@@ -1,3 +1,4 @@
+import type { TemplateChildNode } from '@vue/compiler-core'
 import {
   CREATE_COMMENT,
   FRAGMENT,
@@ -13,41 +14,46 @@ import {
 
 const indexMap = new WeakMap()
 
-// https://github.com/vuejs/core/blob/f5971468e53683d8a54d9cd11f73d0b95c0e0fb7/packages/compiler-core/src/ast.ts#L62
-const ElementTypes = {
-  TEMPLATE: 3,
-}
+/**
+ * @see {@link https://github.com/vuejs/core/blob/f5971468e53683d8a54d9cd11f73d0b95c0e0fb7/packages/shared/src/patchFlags.ts#L19 |@vue/compiler-core}
+ * @description STABLE_FRAGMENT is number, for the purpose of this module is made string so it will not be called toString on it
+ */
+const PATCH_FLAGS = {
+  STABLE_FRAGMENT: '64',
+} as const
 
-// https://github.com/vuejs/core/blob/f5971468e53683d8a54d9cd11f73d0b95c0e0fb7/packages/shared/src/patchFlags.ts#L19
-const PatchFlags = {
-  STABLE_FRAGMENT: 64,
-}
+const DIRECTIVE_NODES = {
+  SHOW: 'show',
+} as const
 
 export const transformLazyShow = createStructuralDirectiveTransform(
   /^(lazy-show|show)$/,
   (node, dir, context) => {
     // forward normal `v-show` as-is
-    if (dir.name === 'show' && !dir.modifiers.includes('lazy')) {
+    if (dir.name === DIRECTIVE_NODES.SHOW && !dir.modifiers.includes('lazy')) {
       return () => {
         node.props.push(dir)
       }
     }
 
-    const directiveName = dir.name === 'show'
+    const directiveName = dir.name === DIRECTIVE_NODES.SHOW
       ? 'v-show.lazy'
       : 'v-lazy-show'
 
-    if (node.tagType === ElementTypes.TEMPLATE || node.tag === 'template')
+    if (node.tag === 'template')
       throw new Error(`${directiveName} can not be used on <template>`)
 
     // FIXME: Not sure why Vue prefixes `_ctx.` twice in the generated code, workaround it here
     const conditionExp = dir.exp!
-    node.props.forEach((prop) => {
-      if ('exp' in prop && prop.exp && 'content' in prop.exp && prop.exp.loc.source)
-        prop.exp = createSimpleExpression(prop.exp.loc.source)
-    })
-    if (dir.exp!.loc.source)
-      dir.exp = createSimpleExpression(dir.exp!.loc.source)
+
+    node.props
+      .forEach((prop) => {
+        if ('exp' in prop && prop.exp && 'content' in prop.exp && prop.exp.loc.source)
+          prop.exp = createSimpleExpression(prop.exp.loc.source)
+      })
+
+    if (conditionExp.loc.source)
+      dir.exp = createSimpleExpression(conditionExp.loc.source)
 
     if (context.ssr || context.inSSR) {
       /**
@@ -60,18 +66,20 @@ export const transformLazyShow = createStructuralDirectiveTransform(
        * https://github.com/vuejs/core/blob/f811dc2b60ba7efdbb9b1ab330dcbc18c1cc9a75/packages/compiler-ssr/src/index.ts#L58
        */
       const ssrTransformIf = context.nodeTransforms[0]
-      node.props.push({
-        ...dir,
-        exp: dir.exp,
-        modifiers: dir.modifiers.filter(i => i !== 'lazy'),
-        name: 'if',
-      })
+
+      node.props
+        .push({
+          ...dir,
+          modifiers: dir.modifiers.filter(modifier => modifier !== 'lazy'),
+          name: 'if',
+        })
+
       ssrTransformIf(node, context)
       return
     }
 
     const { helper } = context
-    const keyIndex = (indexMap.get(context.root) || 0) + 1
+    const keyIndex = (indexMap.get(context.root) ?? 0) + 1
     indexMap.set(context.root, keyIndex)
 
     const key = `_lazyshow${keyIndex}`
@@ -85,7 +93,7 @@ export const transformLazyShow = createStructuralDirectiveTransform(
           helper(FRAGMENT),
           undefined,
           [node],
-          PatchFlags.STABLE_FRAGMENT.toString(),
+          PATCH_FLAGS.STABLE_FRAGMENT,
           undefined,
           undefined,
           true,
@@ -98,16 +106,16 @@ export const transformLazyShow = createStructuralDirectiveTransform(
         '"v-show-if"',
         'true',
       ]),
-    ) as any
+    )
 
     // rename `v-lazy-show` to `v-show` and let Vue handles it
     node.props.push({
       ...dir,
-      modifiers: dir.modifiers.filter(i => i !== 'lazy'),
-      name: 'show',
+      modifiers: dir.modifiers.filter(modifier => modifier !== 'lazy'),
+      name: DIRECTIVE_NODES.SHOW,
     })
 
-    context.replaceNode(wrapNode)
+    context.replaceNode(<TemplateChildNode><unknown>wrapNode)
 
     return () => {
       if (!node.codegenNode)
