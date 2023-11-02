@@ -3,7 +3,7 @@ import type { Plugin } from 'vite'
 import vLazyShow from '../../src/nuxt'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
-// eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+// eslint-disable-next-line ts/prefer-ts-expect-error
 // @ts-ignore ignore
 export default defineNuxtConfig({
   modules: [

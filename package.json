@@ -2,7 +2,7 @@
   "name": "v-lazy-show",
   "type": "module",
   "version": "0.2.3",
-  "packageManager": "pnpm@8.3.1",
+  "packageManager": "pnpm@8.10.2",
   "description": "Compile-time directive to lazy initialize v-show for Vue",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -18,13 +18,13 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
     "./nuxt": {
       "types": "./dist/nuxt.d.ts",
-      "require": "./dist/nuxt.cjs",
-      "import": "./dist/nuxt.mjs"
+      "import": "./dist/nuxt.mjs",
+      "require": "./dist/nuxt.cjs"
     }
   },
   "main": "./dist/index.mjs",
@@ -39,8 +39,8 @@
     }
   },
   "files": [
-    "dist",
-    "*.d.ts"
+    "*.d.ts",
+    "dist"
   ],
   "scripts": {
     "build": "unbuild",
@@ -57,24 +57,24 @@
     "@vue/compiler-core": "^3.3"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.38.5",
-    "@antfu/ni": "^0.21.3",
-    "@antfu/utils": "^0.7.2",
-    "@types/node": "^18.15.11",
-    "bumpp": "^9.1.0",
-    "eslint": "^8.38.0",
-    "esno": "^0.16.3",
-    "lint-staged": "^13.2.1",
-    "pnpm": "^8.3.1",
-    "rimraf": "^5.0.0",
-    "simple-git-hooks": "^2.8.1",
-    "typescript": "^5.0.4",
-    "unbuild": "^1.2.1",
-    "vite": "^4.2.2",
-    "vite-plugin-inspect": "^0.7.22",
-    "vitest": "^0.30.1",
+    "@antfu/eslint-config": "^1.1.0",
+    "@antfu/ni": "^0.21.8",
+    "@antfu/utils": "^0.7.6",
+    "@types/node": "^20.8.10",
+    "bumpp": "^9.2.0",
+    "eslint": "^8.52.0",
+    "esno": "^0.17.0",
+    "lint-staged": "^15.0.2",
+    "pnpm": "^8.10.2",
+    "rimraf": "^5.0.5",
+    "simple-git-hooks": "^2.9.0",
+    "typescript": "^5.2.2",
+    "unbuild": "^2.0.0",
+    "vite": "^4.5.0",
+    "vite-plugin-inspect": "^0.7.41",
+    "vitest": "^0.34.6",
     "vue": "^3.3.7",
-    "vue-tsc": "^1.2.0"
+    "vue-tsc": "^1.8.22"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"
