@@ -52,6 +52,6 @@ Hello
 </template>
 `,
       )
-    }).toThrowErrorMatchingInlineSnapshot('"v-lazy-show can not be used on <template>"')
+    }).toThrowErrorMatchingInlineSnapshot(`[Error: v-lazy-show can not be used on <template>]`)
   })
 })
