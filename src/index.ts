@@ -48,6 +48,8 @@ export const transformLazyShow = createStructuralDirectiveTransform(
 
     node.props
       .forEach((prop) => {
+        if (prop.name === 'on')
+          return
         if ('exp' in prop && prop.exp && 'content' in prop.exp && prop.exp.loc.source)
           prop.exp = createSimpleExpression(prop.exp.loc.source)
       })
@@ -115,11 +117,12 @@ export const transformLazyShow = createStructuralDirectiveTransform(
       name: DIRECTIVE_NODES.SHOW,
     })
 
+    const _context = Object.assign({}, context)
     context.replaceNode(<TemplateChildNode><unknown>wrapNode)
 
     return () => {
       if (!node.codegenNode)
-        traverseNode(node, context)
+        traverseNode(node, _context)
     }
   },
 )

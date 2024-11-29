@@ -4,13 +4,16 @@ import HelloWorld from './HelloWorld.vue'
 
 const enabled = ref(false)
 const role = ref('button')
+function handler() {
+  console.log('click')
+}
 </script>
 
 <template>
   <button @click="enabled = !enabled">
     Toggle
   </button>
-  <div v-lazy-show="enabled">
+  <div v-lazy-show="enabled" @click="handler">
     v-lazy-show
   </div>
   <div v-show="enabled">
