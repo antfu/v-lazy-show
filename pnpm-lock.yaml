@@ -13,7 +13,7 @@ importers:
   .:
     dependencies:
       '@vue/compiler-core':
-        specifier: ^3.3
+        specifier: ^3.5
         version: 3.5.13
     devDependencies:
       '@antfu/eslint-config':
@@ -84,20 +84,20 @@ importers:
     dependencies:
       vue:
         specifier: ^3.4.21
-        version: 3.5.13(typescript@5.7.2)
+        version: 3.5.13(typescript@5.6.3)
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^5.0.4
-        version: 5.0.4(vite@6.0.3(@types/node@22.10.2)(jiti@2.4.1)(terser@5.22.0)(tsx@4.19.2)(yaml@2.6.1))(vue@3.5.13(typescript@5.7.2))
+        version: 5.0.4(vite@6.0.3(@types/node@22.10.2)(jiti@2.4.1)(terser@5.22.0)(tsx@4.19.2)(yaml@2.6.1))(vue@3.5.13(typescript@5.6.3))
       typescript:
         specifier: ^5.4.2
-        version: 5.7.2
+        version: 5.6.3
       vite:
         specifier: ^6.0.3
         version: 6.0.3(@types/node@22.10.2)(jiti@2.4.1)(terser@5.22.0)(tsx@4.19.2)(yaml@2.6.1)
       vue-tsc:
         specifier: ^2.0.6
-        version: 2.1.10(typescript@5.7.2)
+        version: 2.1.10(typescript@5.6.3)
 
 packages:
 
@@ -6501,10 +6501,10 @@ snapshots:
       vite: 6.0.3(@types/node@22.10.2)(jiti@1.21.6)(terser@5.22.0)(tsx@4.19.2)(yaml@2.6.1)
       vue: 3.5.13(typescript@5.7.2)
 
-  '@vitejs/plugin-vue@5.0.4(vite@6.0.3(@types/node@22.10.2)(jiti@2.4.1)(terser@5.22.0)(tsx@4.19.2)(yaml@2.6.1))(vue@3.5.13(typescript@5.7.2))':
+  '@vitejs/plugin-vue@5.0.4(vite@6.0.3(@types/node@22.10.2)(jiti@2.4.1)(terser@5.22.0)(tsx@4.19.2)(yaml@2.6.1))(vue@3.5.13(typescript@5.6.3))':
     dependencies:
       vite: 6.0.3(@types/node@22.10.2)(jiti@2.4.1)(terser@5.22.0)(tsx@4.19.2)(yaml@2.6.1)
-      vue: 3.5.13(typescript@5.7.2)
+      vue: 3.5.13(typescript@5.6.3)
 
   '@vitest/eslint-plugin@1.1.16(@typescript-eslint/utils@8.18.1(eslint@9.17.0(jiti@2.4.1))(typescript@5.6.3))(eslint@9.17.0(jiti@2.4.1))(typescript@5.6.3)(vitest@2.1.8(@types/node@22.10.2)(jiti@2.4.1)(terser@5.22.0)(tsx@4.19.2)(yaml@2.6.1))':
     dependencies:
@@ -6658,6 +6658,7 @@ snapshots:
       path-browserify: 1.0.1
     optionalDependencies:
       typescript: 5.7.2
+    optional: true
 
   '@vue/reactivity@3.5.13':
     dependencies:
@@ -10402,7 +10403,8 @@ snapshots:
 
   typescript@5.6.3: {}
 
-  typescript@5.7.2: {}
+  typescript@5.7.2:
+    optional: true
 
   ufo@1.5.4: {}
 
@@ -10865,6 +10867,7 @@ snapshots:
       '@vue/language-core': 2.1.10(typescript@5.7.2)
       semver: 7.6.3
       typescript: 5.7.2
+    optional: true
 
   vue@3.5.13(typescript@5.6.3):
     dependencies:
