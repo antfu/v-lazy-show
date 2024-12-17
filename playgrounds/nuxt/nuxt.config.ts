@@ -2,6 +2,8 @@ import type { Plugin } from 'vite'
 import vLazyShow from '../../src/nuxt'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-ignore
 export default defineNuxtConfig({
   modules: [
     '@nuxt/devtools',
