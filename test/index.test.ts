@@ -1,7 +1,7 @@
-import { describe, expect, it } from 'vitest'
 import type { CompilerOptions } from '@vue/compiler-core'
-import { compileTemplate } from 'vue/compiler-sfc'
 import { getBaseTransformPreset } from '@vue/compiler-core'
+import { describe, expect, it } from 'vitest'
+import { compileTemplate } from 'vue/compiler-sfc'
 import { transformLazyShow } from '../src'
 
 function parseWithForTransform(
@@ -35,9 +35,9 @@ describe('cases', () => {
   for (const [path, fn] of Object.entries(cases)) {
     it(path, async () => {
       const csr = parseWithForTransform(await fn()).code
-      expect(csr).toMatchFileSnapshot(path.replace('input.html', 'output.csr.js'))
+      await expect(csr).toMatchFileSnapshot(path.replace('input.html', 'output.csr.js'))
       const ssr = parseWithForTransform(await fn(), {}, true).code
-      expect(ssr).toMatchFileSnapshot(path.replace('input.html', 'output.ssr.js'))
+      await expect(ssr).toMatchFileSnapshot(path.replace('input.html', 'output.ssr.js'))
     })
   }
 })
@@ -46,7 +46,7 @@ describe('errors', () => {
   it('error on template', () => {
     expect(() => {
       parseWithForTransform(
-      `
+        `
 <template v-lazy-show="foo">
 Hello
 </template>

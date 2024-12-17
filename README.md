@@ -16,8 +16,8 @@ For example in Vite:
 
 ```ts
 // vite.config.ts
-import { defineConfig } from 'vite'
 import { transformLazyShow } from 'v-lazy-show'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
@@ -86,7 +86,7 @@ Like how `v-if` works, when you use this directive, it hint the compiler to do s
 will be compiled to
 
 ```ts
-import { Fragment as _Fragment, createCommentVNode as _createCommentVNode, createElementBlock as _createElementBlock, createElementVNode as _createElementVNode, openBlock as _openBlock, vShow as _vShow, withDirectives as _withDirectives } from 'vue'
+import { createCommentVNode as _createCommentVNode, createElementBlock as _createElementBlock, createElementVNode as _createElementVNode, Fragment as _Fragment, openBlock as _openBlock, vShow as _vShow, withDirectives as _withDirectives } from 'vue'
 
 export function render(_ctx, _cache) {
   return (_cache._lazyshow1 || _ctx.foo)

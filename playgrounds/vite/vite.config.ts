@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vite'
 import Inspect from 'vite-plugin-inspect'
 import { transformLazyShow } from '../../src'
 

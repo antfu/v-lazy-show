@@ -10,6 +10,6 @@ export function render(_ctx, _cache) {
         }, " Hello ", 8 /* PROPS */, ["id"]), [
           [_vShow, _ctx.foo]
         ])
-      ], 64)))
+      ], 64 /* STABLE_FRAGMENT */)))
     : _createCommentVNode("v-show-if", true)
 }

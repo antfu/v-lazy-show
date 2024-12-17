@@ -4,7 +4,9 @@ import HelloWorld from './HelloWorld.vue'
 
 const enabled = ref(false)
 const role = ref('button')
+
 function handler() {
+  // eslint-disable-next-line no-console
   console.log('click')
 }
 </script>

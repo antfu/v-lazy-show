@@ -1,7 +1,6 @@
 import type { TemplateChildNode } from '@vue/compiler-core'
 import {
   CREATE_COMMENT,
-  FRAGMENT,
   createCallExpression,
   createCompoundExpression,
   createConditionalExpression,
@@ -9,6 +8,7 @@ import {
   createSimpleExpression,
   createStructuralDirectiveTransform,
   createVNodeCall,
+  FRAGMENT,
   traverseNode,
 } from '@vue/compiler-core'
 
@@ -16,10 +16,9 @@ const indexMap = new WeakMap()
 
 /**
  * @see {@link https://github.com/vuejs/core/blob/f5971468e53683d8a54d9cd11f73d0b95c0e0fb7/packages/shared/src/patchFlags.ts#L19 |@vue/compiler-core}
- * @description STABLE_FRAGMENT is number, for the purpose of this module is made string so it will not be called toString on it
  */
 const PATCH_FLAGS = {
-  STABLE_FRAGMENT: '64',
+  STABLE_FRAGMENT: 64,
 } as const
 
 const DIRECTIVE_NODES = {
@@ -30,7 +29,7 @@ export const transformLazyShow = createStructuralDirectiveTransform(
   /^(lazy-show|show)$/,
   (node, dir, context) => {
     // forward normal `v-show` as-is
-    if (dir.name === DIRECTIVE_NODES.SHOW && !dir.modifiers.includes('lazy')) {
+    if (dir.name === DIRECTIVE_NODES.SHOW && !dir.modifiers.some(i => i.content === 'lazy')) {
       return () => {
         node.props.push(dir)
       }
@@ -72,7 +71,7 @@ export const transformLazyShow = createStructuralDirectiveTransform(
       node.props
         .push({
           ...dir,
-          modifiers: dir.modifiers.filter(modifier => modifier !== 'lazy'),
+          modifiers: dir.modifiers.filter(modifier => modifier.content !== 'lazy'),
           name: 'if',
         })
 
@@ -113,7 +112,7 @@ export const transformLazyShow = createStructuralDirectiveTransform(
     // rename `v-lazy-show` to `v-show` and let Vue handles it
     node.props.push({
       ...dir,
-      modifiers: dir.modifiers.filter(modifier => modifier !== 'lazy'),
+      modifiers: dir.modifiers.filter(modifier => modifier.content !== 'lazy'),
       name: DIRECTIVE_NODES.SHOW,
     })
 

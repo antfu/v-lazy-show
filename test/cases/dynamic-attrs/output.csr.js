@@ -8,7 +8,7 @@ export function render(_ctx, _cache) {
           _withDirectives(_createElementVNode("div", { role: _ctx.role }, "hello world", 8 /* PROPS */, ["role"]), [
             [_vShow, _ctx.isOpen]
           ])
-        ], 64)))
+        ], 64 /* STABLE_FRAGMENT */)))
       : _createCommentVNode("v-show-if", true)
   ], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))
 }

@@ -6,6 +6,6 @@ export function render(_ctx, _cache) {
         _withDirectives(_createElementVNode("span", null, " Hello ", 512 /* NEED_PATCH */), [
           [_vShow, _ctx.foo]
         ])
-      ], 64)))
+      ], 64 /* STABLE_FRAGMENT */)))
     : _createCommentVNode("v-show-if", true)
 }

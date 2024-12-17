@@ -2,7 +2,7 @@
   "name": "v-lazy-show",
   "type": "module",
   "version": "0.2.4",
-  "packageManager": "pnpm@8.15.5",
+  "packageManager": "pnpm@9.15.0",
   "description": "Compile-time directive to lazy initialize v-show for Vue",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -54,27 +54,31 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "peerDependencies": {
-    "@vue/compiler-core": "^3.3"
+    "@vue/compiler-core": "^3.5"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.8.3",
-    "@antfu/ni": "^0.21.12",
-    "@antfu/utils": "^0.7.7",
-    "@types/node": "^20.11.30",
-    "bumpp": "^9.4.0",
-    "eslint": "^8.57.0",
-    "esno": "^4.7.0",
-    "lint-staged": "^15.2.2",
-    "pnpm": "^8.15.5",
-    "rimraf": "^5.0.5",
-    "simple-git-hooks": "^2.11.0",
-    "typescript": "^5.4.2",
-    "unbuild": "^2.0.0",
-    "vite": "^5.1.6",
-    "vite-plugin-inspect": "^0.8.3",
-    "vitest": "^1.4.0",
-    "vue": "^3.4.21",
-    "vue-tsc": "^2.0.6"
+    "@antfu/eslint-config": "^3.12.0",
+    "@antfu/ni": "^0.23.1",
+    "@antfu/utils": "^0.7.10",
+    "@types/node": "^22.10.2",
+    "bumpp": "^9.9.1",
+    "eslint": "^9.17.0",
+    "esno": "^4.8.0",
+    "lint-staged": "^15.2.11",
+    "pnpm": "^9.15.0",
+    "rimraf": "^6.0.1",
+    "simple-git-hooks": "^2.11.1",
+    "typescript": "~5.6.3",
+    "unbuild": "^3.0.1",
+    "vite": "^6.0.3",
+    "vite-plugin-inspect": "^0.10.3",
+    "vitest": "^2.1.8",
+    "vue": "^3.5.13",
+    "vue-tsc": "^2.1.10"
+  },
+  "resolutions": {
+    "vite": "^6.0.3",
+    "vite-plugin-inspect": "^0.10.3"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"

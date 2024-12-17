@@ -3,7 +3,9 @@ import { ref } from 'vue'
 import HelloWorld from './HelloWorld.vue'
 
 const enabled = ref(false)
+
 function handler(msg?: string) {
+  // eslint-disable-next-line no-console
   console.log(msg || '111')
 }
 </script>
