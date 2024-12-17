@@ -1,7 +1,7 @@
 {
   "name": "v-lazy-show",
   "type": "module",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "packageManager": "pnpm@9.15.0",
   "description": "Compile-time directive to lazy initialize v-show for Vue",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
